@@ -77,10 +77,9 @@ public class Container {
         for (int dir = 0; dir < 3; dir++) {
             if (cube[dir] == _bbox.min[dir] || cube[dir] == _bbox.max[dir]) {
                 var foundCube = false;
-                var (dir1, dir2) = Dir.Others[dir];
-                var startOff = cubes3D.GetOffset(dir, cube[dir]);
-                foreach (var (offset1, offset2) in cubes3D.GetRange2DOffsets(dir1, dir2, _bbox)) {
-                    if (cubes3D.array[startOff + offset1 + offset2]) {
+                
+                foreach (var (off1, off2, off3) in cubes3D.GetRange3DOffsets(_bbox.Project(dir, cube[dir]))) {
+                    if (cubes3D.array[off1 + off2 + off3]) {
                         foundCube = true;
                         break;
                     }

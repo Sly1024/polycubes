@@ -7,7 +7,7 @@ public struct Dir {
     public static readonly (int, int)[] Others = new [] { (1, 2), (0, 2), (0, 1) };
 }
 
-public record struct Range3D {
+public struct Range3D {
     public CubeCoords min;
     public CubeCoords max;
 
@@ -86,11 +86,12 @@ public class Array3D<T> where T : struct {
         );
     }
 
-    public Offset3DEnumerator GetRange3DOffsets(Range3D range, Dir3D dir1, Dir3D dir2, Dir3D dir3, bool dir1Back = false, bool dir2Back = false, bool dir3Back = false) {
-        int start1 = range.min[dir1], end1 = range.max[dir1];
-        int start2 = range.min[dir2], end2 = range.max[dir2];
-        int start3 = range.min[dir3], end3 = range.max[dir3];
+    public Offset3DEnumerator GetRange3DOffsets(Range3D range, Dir3D dir1 = 0, Dir3D dir2 = 1, Dir3D dir3 = 2, 
+                                                bool dir1Back = false, bool dir2Back = false, bool dir3Back = false) {
         int size1 = sizePerDir[dir1], size2 = sizePerDir[dir2], size3 = sizePerDir[dir3];
+        int start1 = range.min[dir1] * size1, end1 = range.max[dir1] * size1;
+        int start2 = range.min[dir2] * size2, end2 = range.max[dir2] * size2;
+        int start3 = range.min[dir3] * size3, end3 = range.max[dir3] * size3;
         return new Offset3DEnumerator(
             dir1Back ? end1 : start1, dir1Back ? start1 : end1, dir1Back ? -size1 : size1,
             dir2Back ? end2 : start2, dir2Back ? start2 : end2, dir2Back ? -size2 : size2,
